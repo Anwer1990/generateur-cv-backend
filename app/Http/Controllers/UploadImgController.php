@@ -22,13 +22,16 @@ class UploadImgController extends Controller
 
     public function store(Request $request)
     {
-        // $request->validate([
-        //     'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        // ]);
-  
-        $imageName = time().'.'.$request->image->extension();  
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $imageName = time() . $request->image->getClientOriginalName();  
    
         $request->image->move(public_path('images'), $imageName);
+
+        $avatar = "http://127.0.0.1:8000/images/".$imageName;
+        return $avatar;
    
     }
 }
